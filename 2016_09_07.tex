@@ -1,0 +1,440 @@
+\documentclass{beamer}
+
+\mode<presentation>
+\usepackage{color}
+
+\usepackage{multirow}
+\usepackage{setspace}
+%\usecolortheme{beaver}
+\usepackage{textpos}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{>=stealth}
+\newcommand{\tikzmark}[3][]{\tikz[overlay,remember picture,baseline] \node [anchor=base,#1](#2) {#3};}
+
+%\usecolortheme{albatross}
+\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+%\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+	
+%日期
+\usepackage{amsmath}
+\usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{argmin}
+%style
+\usetheme{Berlin}
+%\usetheme{Szeged}
+\usecolortheme{beaver}
+\usefonttheme{serif}
+%graph
+\usepackage{graphicx} 
+%algorithm
+\usepackage{algorithm}
+\usepackage{algorithmic} 
+
+\usepackage{listings}
+
+% Fonts
+%\newfontfamily\Courier{SimHei}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+% Listing Settings
+% Python style for highlighting
+% \usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+
+
+%C++
+\usepackage{color}
+\usepackage{listings}
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=t,           % sets the caption-position to top (use `b' to bottom)
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
+}
+
+
+
+
+% Renew Names
+\renewcommand{\lstlistingname}{Code}
+%中文
+%\usepackage{ctex}
+
+
+% Counter
+\newcounter{probCounter}
+\newcounter{theoCounter}
+
+% Custom Commands
+\newcommand{\prob}{Sample \stepcounter{probCounter}\arabic{probCounter}}
+\newcommand{\theo}{Theory  \stepcounter{theoCounter}\arabic{theoCounter}}
+
+\usepackage{xcolor}
+
+ %\logo{\pgfputat{\pgfxy(0,200)}{\pgfbox[center,base]{\includegraphics[height=0.5cm]{pictures/lamda-small.eps}}}}
+%\logo{\includegraphics[height=0.08\textwidth]{pictures/lamda-small.eps}}
+
+\title{Safe Semi-supervised Multi-label Learning}
+
+%\date{Jan. 31$^{\text{th}}$, 2016} %前面调用amsmath宏包
+
+\date{
+
+ \hfill {Tong Wei}
+~\\
+\hfill{Oct. 10$^{\text{th}}$, 2016}
+}
+
+%\institute{Department of Computer Science, Nanjing University}
+
+\begin{document}
+
+%\addtobeamertemplate{frametitle}{}{%
+%\begin{tikzpicture}[remember picture,overlay]
+%\node[anchor=north east,xshift=8pt,yshift=-5pt] at (current page.north east) {\includegraphics[height=1.6cm]{pictures/lamda-normal.eps}};
+%\end{tikzpicture}}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{ \textcolor{blue}{Introduction}}
+Multi-label learning refers to the problems where an
+instance can be assigned to more than one category.
+In this paper, we present a novel \textcolor{red}{Semi-supervised} algorithm
+for \textcolor{red}{Multi-label} learning by solving a XXX problem.
+\end{frame}
+
+
+%\begin{frame}
+  %\tableofcontents[1]
+ % \newpage
+%\end{frame}
+
+\begin{frame}[allowframebreaks]%[plain] %
+\frametitle{\textcolor{blue}{Algorithm}}
+%\begin{algorithm}[H]
+\begin{algorithmic}[1]
+\STATE Initialize M, the number of learners for each label.
+\FOR{$t=1$ to $T$}
+\FOR{$k = 1$ to $K$}
+\STATE Sample M bootstrap replicates $\{(\bar{\textbf{X}}_1, \bar{\textbf{y}}_1), (\bar{\textbf{X}}_2, \bar{\textbf{y}}_2), \dots, (\bar{\textbf{X}}_M, \bar{\textbf{y}}_M)\}$
+\FOR{$m=1$ to $M$}
+\STATE Train an SVM model $\mathcal{M}_{km}$ on $\bar{\textbf{X}}_m$ and $\bar{\textbf{y}}_m$. 
+\STATE \small Derive $\boldsymbol{\tilde{y}}_{km}$ by predicting on the unlabeled data $X_U$ using $\mathcal{M}_{km}$.
+\ENDFOR
+\STATE \small Compute $\{\textbf{w}_{k1}, \textbf{w}_{k2}, \dots, \textbf{w}_{kM}\}$ and $\boldsymbol{\mu}_k$ by solving Problem (8) in AAAI16.
+\STATE \small Calculate prediction $P_{jk}^{t} = \sum_{m=1}^M \mu_{km}\textbf{w}_{km}^{\mathrm{T}}\textbf{x}_j$ for a test data $\textbf{x}_j$.
+\ENDFOR
+%\STATE Choose the class label for $\textbf{x}_j$ by arg $max_k\{p_{jk}\}_{k=1}^K$.
+\ENDFOR
+
+\STATE Solve
+$
+\displaystyle\argmin_{Y, V} \displaystyle\sum_{i=1}^{\tikzmark{U}{U}}\displaystyle\sum_{j=1}^{\tikzmark{T}{T}}\left(Y_{ij} - \big(\,\,\,\tikzmark{P}{P\,\,\,}_{i  \cdot }^{(j)}\big)V_{i\cdot }^\top \right)^2 + \underbrace{C_1\displaystyle\sum_{j=1}^{T}\left(\displaystyle\sum_{i=1}^{U}Y_{ij} - q_j\right)^2}_{\texttt{column regulization}} + \underbrace{C_2\displaystyle\sum_{i=1}^{U}\left(\displaystyle\sum_{j=1}^{T}Y_{ij} - \gamma_0\right)^2}_{\texttt{row regulization}}  + C_3\left|\left|V - V_0\right|\right|_F^2
+$
+
+%\caption{Safe Semi-supervised Multi-label Learning}
+%\label{alg:seq}
+\end{algorithmic}
+%\end{algorithm}
+
+
+\begin{tikzpicture}[overlay, remember picture,node distance =1cm]
+    \node [blue](Udescr) [above=of U ]{\tiny the number of unlabeled instances};
+    \draw[blue,->,thick] (Udescr) to [in=90,out=-90] (U);
+    \node[red] (Tdescr) [above right=of T]{\tiny the number of labels};
+    \draw[red,->,thick] (Tdescr) to [in=90,out=180] (T);
+      \node[black] (Pdescr) [above right=of P]{\tiny size of $P^{(j)}$ and V are both U $\times$ K};
+   \draw[black,->,thick] (Pdescr) to [in=90,out=180] (P);
+ 
+\end{tikzpicture}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Algorithm}}
+\begin{algorithm}[H]
+%\caption{}
+%\label{}
+\begin{algorithmic}[1]
+\STATE Randomly initialize $\textbf{Y}$ and $\textbf{V}$ to real numbers in range (0, 1) and $\displaystyle\sum_{j=1}^{K}V_{ij} = 1$ for all $1 \leq i \leq U$.
+\STATE Until convergence, do
+	\STATE \qquad Fix $\textbf{Y}$, update $\textbf{V}$ using $V_{ik} =V_{ik} -  \frac{C3V_{0_{ik}} + \displaystyle\sum_{j=1}^T Y_{ij}P_{ik}^{(j)}}{C3 + \displaystyle_{j=1}^{T}(P_{ik}^{(j)})^2}$ \\[0.5cm]
+
+	\STATE \qquad Fix $\textbf{V}$, update $\textbf{Y}$ using  $Y_{ij} = Y_{ij} - \frac{P_{i\cdot}^{(j)}V_{i\cdot}^\top + C1q_j + C2\gamma_0}{1 + C1 + C2}$
+
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+
+
+
+
+\begin{frame}[plain]\small
+\begin{table}[h]
+\centering
+\caption{Characteristics of the benchmark multi-label data sets.}
+\begin{tabular}{lllllll}
+\hline
+\hline
+Data set & \#S & dim(S)& L(S) & LCard(S) & LDen(S) & Domain\\
+\hline
+
+emotions & 593&72 & 6&1.869& 0.311&music\\
+genebase & 662&1185 &  27&1.252 &0.046&biology\\
+enron & 1702& 1001 & 53& 3.378& 0.064&text\\
+image & 2000&294&  5&1.236 & 0.247&images\\
+scene & 2407&294& 6& 1.074 & 0.179& images\\
+Yeast & 2417 &103& 14 & 4.237 & 0.303& biology\\
+\hline
+Arts & 5000 & 462 & 26 & 1.636 & 0.063 &\\
+Business & 5000& 438 & 30& 1.588 & 0.052&\\
+Computers & 5000&681 &  33&1.508 &0.046& \\
+Education & 5000& 550 & 33&1.461&0.044&\\
+Entertainment & 5000&640 &  21&1.420 & 0.068& \\
+Health & 5000&612&  32&1.662&0.052&\\
+Recreation & 5000&606 & 22&1.423 & 0.065& \\
+Reference & 5000&793 &  33&1.169 &0.035& \\
+Science & 5000&743& 40&1.451 &0.036&\\
+Social & 5000&1047& 39&1.283 &  0.033&\\
+Society & 5000&636& 27&1.692& 0.063&\\
+\hline
+\hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Experimental setup}}
+\begin{enumerate}
+\item Split 10\% or 20 \% data for training from data set.
+\item Select parameters by performing 5-fold cross-validation on the training set.
+\item Every experiment is repeated 20 times by randomly re-splitting the dataset into the training and the testing sets.
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Evaluation Metrics}}
+we choose $F_1$ measure as the evaluation metrics, which can be seen as the weighted average of F1 scores over all the categories.\\
+\[
+F_1(s) = \frac{2p_sr_s}{p_s + r_s}
+\]
+where, \\
+
+\[
+\tikzmark{pre}{p}\,\,_s = \frac{|\{x_i | s \in C_i \wedge s \in \,\,  \hat{C}\,_{\tikzmark{Chat}{$i$}} \,\, \}|}{|\{x_i | s \in \hat{C}_i\}|} 
+\]
+\\
+\[
+\tikzmark{rec}{r}\,\,_s = \frac{|\{x_i | s \in C_i \wedge s \in \hat{C_i}\}|}{|\{x_i | s \in  \,\, \tikzmark{C}{C} \,\,_i \,\, \}|}
+\]
+
+
+\begin{tikzpicture}[overlay, remember picture,node distance =0.2cm]
+    \node [purple](Cdescr) [below left=of C ]{\tiny $i$th instance $x_i$'s true labels};
+    \draw[purple,->,thick] (Cdescr) to [in=-90,out=0] (C);
+    \node[red] (Chatdescr) [above right=of Chat]{\tiny $i$th instance $x_i$'s predicted labels};
+    \draw[red,->,thick] (Chatdescr) to [in=90,out=180] (Chat);
+    \node [purple](predescr) [ left=of pre ]{\tiny precision};
+    \draw[purple,->,thick] (predescr) to [in=180,out=0] (pre);
+    \node[red] (recdescr) [ left=of rec]{\tiny recall};
+    \draw[red,->,thick] (recdescr) to [in=180,out=0] (rec);
+\end{tikzpicture}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Comparing methods}}
+
+\begin{enumerate}
+\item Binary Relevance method
+\item Supervised Multi-label learning algorithm(e.g. CCE)
+\item  Constrained Non-negative Matrix Factorization(CNMF)
+\item Dynamic Label Propagation for Semi-supervised Multi-class Multi-label Classification(DLP)
+\item Semi-supervised Multi-label learning method by solving Sylvester Equation(SMSE)
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Constrained Non-negative Matrix Factorization}}
+The key assumption behind this work is that two examples tend to be assigned similar sets of class labels if
+they share high similarity in the input patterns.\\
+~\\
+Concretely, they expect $A_{i,j} \approx \textbf{t}_i^TB\textbf{t}_j$.
+\begin{enumerate}
+\item $A_{i,j}$ is the similarity of the $i$th and $j$th instance based on feature space.\\
+\item $B_{k,l}$ is the similarity of the $k$th and $l$th category computed by labeled data.\\
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{CNMF}}
+\includegraphics[height=2.6cm]{pictures/CNMF.png}
+
+\begin{enumerate}
+
+\item $\bar{T}_{i, \cdot}$ is the label vector of the $i$th labeled instance.  
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Dynamic Label Propagation for Semi-supervised Multi-class Multi-label Classification}}
+ \begin{enumerate}
+\item Improved transition matrix by fusing information of both data features and data labels in each iteration. 
+~\\
+\item Two instances with high correlated label vectors tend to have high similarity in the input data space.
+
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{DLP Algorithm}}
+\includegraphics[height=4.6cm]{pictures/DLP.png}
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Semi-supervised Multi-label learning method by solving Sylvester Equation}}
+ Two graphs are first constructed on {\color{blue}{instance}} level and {\color{blue}{category}} level respectively.
+
+\begin{enumerate}
+\item For instance
+level,  each node represents
+one instance and each edge weight reflects the similarity
+between corresponding pairwise instances.
+\item For category level, each node represents one category
+and each edge weight reflects the similarity between
+corresponding pairwise categories.
+\end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{\textcolor{blue}{Sylvester equation}}
+
+\[
+\tikzmark{A}{A}\,\,\,\,\tikzmark{X}{X}\,\, + X\,\, \tikzmark{B}{B}\,\,\, = \,\,\,\tikzmark{C}{C}
+\]
+
+~\\
+~\\
+\begin{enumerate}
+\item A Sylvester equation has a unique solution for X exactly when there are no common eigenvalues of A and -B.
+\item A classical algorithm for the numerical solution of the Sylvester equation is the Bartels Stewart algorithm.
+\end{enumerate}
+
+\begin{tikzpicture}[overlay, remember picture,node distance =0.5cm]
+    \node (Adescr) [below left=of A ]{m x m};
+    \draw[,->,thick] (Adescr) to [in=-90,out=90] (A);
+    \node[red] (Xdescr) [below =of X]{m x n};
+    \draw[red,->,thick] (Xdescr) to [in=-90,out=90] (X);
+    \node[blue,xshift=1cm] (Bdescr) [above right =of B]{n x n};
+    \draw[blue,->,thick] (Bdescr) to [in=45,out=-90] (B.north);
+    \node[purple] (Cdescr) [below right =of C]{ m x n};
+    \draw[purple,->,thick] (Cdescr) to [in=-90,out=90] (C.south);
+\end{tikzpicture}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{\textcolor{blue}{SMSE}}
+ $\min \infty \displaystyle\sum_{i=1}^l ||f_i - y_i||^2 + \mu\,\,\,\,\,\,\, \tikzmark{E}{E(f)} \,\,\,\,\,+ \nu\,\,\,\,\,\,\,\tikzmark{EE}{E'(g)}$
+
+
+%\includegraphics[height=1.6cm]{pictures/SMSE_1.png}
+~\\
+~\\
+
+where, \\
+~\\
+$E(f) = \frac{1}{2}\displaystyle\sum_{i, j = 1}^nW_{ij}||f_i - f_j||^2$
+%\includegraphics[height=1.6cm]{pictures/SMSE_2.png}
+~\\
+~\\
+$E'(g) = \frac{1}{2}\displaystyle\sum_{i, j = 1}^kW'_{ij}||g_i - g_j||^2\tikzmark{G}{}$
+%\includegraphics[height=1.6cm]{pictures/SMSE_3.png}
+
+
+\begin{tikzpicture}[overlay, remember picture,node distance =0.5cm]
+    \node [blue](Edescr) [above right=of E ]{instance level energy function};
+    \draw[blue,->,thick] (Edescr) to [in=45,out=-90] (E);
+    \node[red] (EEdescr) [below =of EE]{category level energy function};
+    \draw[red,->,thick] (EEdescr) to [in=-90,out=90] (EE);
+  %  \node[blue,xshift=1cm] (Bdescr) [above right =of B]{n x m};
+   % \draw[blue,->,thick] (Bdescr) to [in=45,out=-90] (B.north);
+    \node[purple] (Gdescr) [ right =of G]{$(f_1,\dots,f_n)^T = (g_1,\dots,g_k)$};
+    \draw[purple,->,thick] (Gdescr) to [in=0,out=180] (G.south);
+\end{tikzpicture}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+\begin{spacing}{2.0}%
+\textcolor{blue}{\Huge The end \\ Thank you!}
+\end{spacing}
+\end{center}
+\end{frame}
+
+\end{document}
